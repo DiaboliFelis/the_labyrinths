@@ -1,39 +1,59 @@
-# TheLabyrinths
+# Генератор лабиринтов
 
-TODO: Delete this and the text below, and describe your gem
+Ruby-гем для создания лабиринтов с помощью различных алгоритмов. Поддерживает визуализацию в консоли и сохранение в PNG.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/the_labyrinths`. To experiment with that code, run `bin/console` for an interactive prompt.
+## Установка
 
-## Installation
-
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
-Install the gem and add to the application's Gemfile by executing:
+Установите гем:
 
 ```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+$ gem install specific_install
+$ gem specific_install https://github.com/DiaboliFelis/the_labyrinths.git
 ```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+Или добавьте в свой Gemfile и запустите bundle install:
 
-```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+```ruby
+gem "the_labyrinths", git: "https://github.com/DiaboliFelis/the_labyrinths.git"
 ```
 
-## Usage
+## Пример работы:
+```ruby
+require 'the_labyrinths'
 
-TODO: Write usage instructions here
+maze = TheLabyrinths.generate(rows: 20, cols: 20)
 
-## Development
+cell = maze.cell_at(0, 0)
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+if cell.east
+  puts "Можно идти направо"
+else
+  puts "Стена справа"
+end
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+puts maze.to_ascii
 
-## Contributing
+maze.to_png('my_maze.png', cell_size: 30)
+```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/the_labyrinths.
+## API
 
-## License
+```ruby
+TheLabyrinths.generate(rows: 20, cols: 20)
+```
+
+| Параметр | Описание | 
+|----------------|:---------:|
+| rows | Количество рядов | 
+| cols | Количество колонок |
+
+| Метод | Описание | 
+|----------------|:---------:|
+| to_ascii | Возвращает строку с ASCII-изображением лабиринта | 
+| to_png(filename, cell_size:) | Сохраняет лабиринт как PNG-картинку |
+| cell_at(row, col) | Возвращает клетку по координатам |
+| each_cell | Перебирает все клетки лабиринта |
+
+## Лицензия
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
