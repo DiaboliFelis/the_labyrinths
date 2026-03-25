@@ -40,5 +40,14 @@ module TheLabyrinths
       
       neighbors.compact
     end
+  
+    def to_ascii
+      Renderers::Ascii.new(self).render
+    end
+  
+    def to_png(filename = 'maze.png', cell_size: 25)
+  Renderers::Png.new(self).render(filename, cell_size: cell_size)
+end
+
   end
 end
