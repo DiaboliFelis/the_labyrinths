@@ -1,9 +1,12 @@
-<img width="384" height="384" alt="image" src="https://github.com/user-attachments/assets/2bdf2f7d-2376-4333-9b9b-0fddb0f7fde6" />
+<img width="459" height="459" alt="image" src="https://github.com/user-attachments/assets/6412a0db-1693-4db4-b653-88c2862466b7" />
+ <img width="459" height="459" alt="image" src="https://github.com/user-attachments/assets/907d43c0-163e-456e-bdac-ae2a00a489e5" />
+
+
 
 
 # Генератор лабиринтов
 
-Ruby-гем для создания лабиринтов с помощью различных алгоритмов. Поддерживает визуализацию в консоли и сохранение в PNG.
+Ruby-гем для создания лабиринтов с помощью различных алгоритмов. Поддерживает визуализацию в консоли и сохранение в PNG. Может найти кратчайший путь от входа (левая верхняя клетка) до выхода (правая нижняя клетка) с помощью алгоритма BFS.
 
 ## Установка
 
@@ -20,7 +23,7 @@ $ gem specific_install https://github.com/DiaboliFelis/the_labyrinths.git
 gem "the_labyrinths", git: "https://github.com/DiaboliFelis/the_labyrinths.git"
 ```
 
-## Пример работы:
+## Примеры работы:
 ```ruby
 require 'the_labyrinths'
 
@@ -39,10 +42,21 @@ puts maze.to_ascii
 maze.to_png('my_maze.png', cell_size: 30)
 ```
 
+```ruby
+maze = TheLabyrinths.generate(rows: 15, cols: 15)
+
+path = maze.solve
+puts "Длина пути: #{path.length} шагов"
+
+puts maze.to_ascii_with_path
+
+maze.to_png_with_path('maze_with_path.png', cell_size: 30)
+```
+
 ## API
 
 ```ruby
-TheLabyrinths.generate(rows: 20, cols: 20)
+maze = TheLabyrinths.generate(rows: 15, cols: 15)
 ```
 
 | Параметр | Описание | 
@@ -56,6 +70,9 @@ TheLabyrinths.generate(rows: 20, cols: 20)
 | to_png(filename, cell_size:) | Сохраняет лабиринт как PNG-картинку |
 | cell_at(row, col) | Возвращает клетку по координатам |
 | each_cell | Перебирает все клетки лабиринта |
+| solve | Возвращает массив координат пути от входа до выхода |
+| to_ascii_with_path | Показывает лабиринт с путём в консоли |
+| to_png_with_path(filename, cell_size:) | Сохраняет лабиринт с найденным с путём (зелёный вход, красный выход, красный путь) как PNG-картинку |
 
 ## Лицензия
 
