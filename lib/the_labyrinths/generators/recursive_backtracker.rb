@@ -35,6 +35,14 @@ module TheLabyrinths
             stack.pop
           end
         end
+
+         # Создаём вход
+        start_cell = @grid.cell_at(0, 0)
+        start_cell.north = false
+  
+        # Создаём выход
+        end_cell = @grid.cell_at(@grid.rows - 1, @grid.cols - 1)
+        end_cell.south = false
         
         @grid
       end
