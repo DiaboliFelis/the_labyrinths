@@ -3,11 +3,34 @@ require_relative "lib/the_labyrinths"
 puts "Создаём лабиринт 15×15..."
 maze = TheLabyrinths.generate(rows: 15, cols: 15)
 
-# Сохраняем как PNG
-puts "Сохраняем PNG..."
-maze.to_png('my_maze.png', cell_size: 25)
+# test_png.rb
+require_relative "lib/the_labyrinths"
+
+puts "Создаём лабиринт 15×15..."
+maze = TheLabyrinths.generate(rows: 15, cols: 15)
+
+# Обычный PNG (только вход и выход)
+puts "\n1. Сохраняем обычный лабиринт..."
+maze.to_png('maze_simple.png', cell_size: 30)
+puts "   → maze_simple.png (только вход и выход)"
+
+# Находим путь
+path = maze.solve
+puts "\n2. Путь найден! Длина: #{path.length} шагов"
+
+# PNG с путём
+puts "\n3. Сохраняем лабиринт с путём..."
+maze.to_png_with_path('maze_with_path.png', cell_size: 30)
+puts "   → maze_with_path.png (зелёный вход, красный выход, красный путь)"
 
 # Показываем в консоли
-puts "\n Готово! Файл: my_maze.png"
-puts "А вот так он выглядит в консоли:\n\n"
-puts maze.to_ascii
+puts "\n4. Лабиринт в консоли с путём (●):"
+puts maze.to_ascii_with_path(path)
+
+puts "\n Готово! Откройте картинки:"
+puts "   - maze_simple.png — обычный лабиринт"
+puts "   - maze_with_path.png — с найденным путём"
+
+# Показываем в консоли с путём
+puts "\nЛабиринт с путём (●):"
+puts maze.to_ascii_with_path(path)

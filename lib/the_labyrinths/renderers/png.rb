@@ -44,19 +44,19 @@ module TheLabyrinths
               end
             end
             
-            # Южная стена (последний ряд)
-            if cell.south || row == @grid.rows - 1
-              (0...cell_size).each do |dx|
-                png[x + dx, y + cell_size] = ChunkyPNG::Color::BLACK
-              end
-            end
-            
-            # Восточная стена (последняя колонка)
-            if cell.east || col == @grid.cols - 1
-              (0...cell_size).each do |dy|
-                png[x + cell_size, y + dy] = ChunkyPNG::Color::BLACK
-              end
-            end
+            # Южная стена
+if cell.south
+  (0...cell_size).each do |dx|
+    png[x + dx, y + cell_size] = ChunkyPNG::Color::BLACK
+  end
+end
+
+# Восточная стена
+if cell.east
+  (0...cell_size).each do |dy|
+    png[x + cell_size, y + dy] = ChunkyPNG::Color::BLACK
+  end
+end
           end
         end
         
