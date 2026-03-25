@@ -115,6 +115,71 @@ module TheLabyrinths
       result.join("\n")
     end
 
+    # Сохраняет PNG с отмеченным путём
+    def to_png_with_path(filename = 'maze_with_path.png', cell_size: 25, path: nil)
+      path ||= solve
+      return to_png(filename, cell_size) if path.empty?
+  
+      width = @cols * cell_size + 1
+      height = @rows * cell_size + 1
+  
+      png = ChunkyPNG::Image.new(width, height, ChunkyPNG::Color::WHITE)
+  
+      # Рисуем стены
+      @rows.times do |row|
+        @cols.times do |col|
+          cell = cell_at(row, col)
+          x = col * cell_size
+          y = row * cell_size
+      
+          # Северная стена
+          if cell.north
+            (0...cell_size).each { |dx| png[x + dx, y] = ChunkyPNG::Color::BLACK }
+          end
+      
+          # Западная стена
+          if cell.west
+            (0...cell_size).each { |dy| png[x, y + dy] = ChunkyPNG::Color::BLACK }
+          end
+      
+          # Южная стена
+          if cell.south
+            (0...cell_size).each { |dx| png[x + dx, y + cell_size] = ChunkyPNG::Color::BLACK }
+          end
+      
+          # Восточная стена
+          if cell.east
+            (0...cell_size).each { |dy| png[x + cell_size, y + dy] = ChunkyPNG::Color::BLACK }
+          end
+        end
+      end
+  
+      # Рисуем путь (красная линия)
+      if path.size > 1
+        path.each_cons(2) do |(row1, col1), (row2, col2)|
+          x1 = col1 * cell_size + cell_size / 2
+         y1 = row1 * cell_size + cell_size / 2
+         x2 = col2 * cell_size + cell_size / 2
+         y2 = row2 * cell_size + cell_size / 2
+      
+         draw_line(png, x1, y1, x2, y2, ChunkyPNG::Color.rgb(255, 0, 0))
+        end
+      end
+  
+      # Отмечаем старт (зелёная точка)
+      sx = 0 * cell_size + cell_size / 2
+      sy = 0 * cell_size + cell_size / 2
+     draw_circle(png, sx, sy, cell_size / 4, ChunkyPNG::Color.rgb(0, 255, 0))
+  
+     # Отмечаем финиш (красная точка)
+     fx = (@cols - 1) * cell_size + cell_size / 2
+      fy = (@rows - 1) * cell_size + cell_size / 2
+      draw_circle(png, fx, fy, cell_size / 4, ChunkyPNG::Color.rgb(255, 0, 0))
+  
+     png.save(filename)
+      filename
+    end
+
     private
 
     def can_move?(from, to)
@@ -132,6 +197,44 @@ module TheLabyrinths
         else
           !from.north
         end
+      end
+    end
+
+    def draw_line(png, x1, y1, x2, y2, color)
+      dx = (x2 - x1).abs
+      dy = (y2 - y1).abs
+      sx = x1 < x2 ? 1 : -1
+      sy = y1 < y2 ? 1 : -1
+      err = dx - dy
+  
+     x, y = x1, y1
+  
+     loop do
+       png[x, y] = color
+        break if x == x2 && y == y2
+        e2 = 2 * err
+        if e2 > -dy
+          err -= dy
+          x += sx
+        end
+        if e2 < dx
+          err += dx
+          y += sy
+        end
+      end
+    end
+
+    def draw_circle(png, cx, cy, radius, color)
+      (0..radius).each do |dx|
+        dy = Math.sqrt(radius * radius - dx * dx).round
+        png[cx + dx, cy + dy] = color
+        png[cx + dx, cy - dy] = color
+        png[cx - dx, cy + dy] = color
+        png[cx - dx, cy - dy] = color
+        png[cx + dy, cy + dx] = color
+        png[cx + dy, cy - dx] = color
+        png[cx - dy, cy + dx] = color
+        png[cx - dy, cy - dx] = color
       end
     end
 
