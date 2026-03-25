@@ -5,6 +5,7 @@ require_relative "the_labyrinths/cell"
 require_relative "the_labyrinths/grid"
 require_relative "the_labyrinths/generators/recursive_backtracker"
 require_relative "the_labyrinths/renderers/ascii"
+require_relative "the_labyrinths/renderers/png"
 
 module TheLabyrinths
   class Error < StandardError; end
