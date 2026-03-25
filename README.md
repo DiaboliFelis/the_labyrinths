@@ -1,3 +1,6 @@
+<img width="384" height="384" alt="image" src="https://github.com/user-attachments/assets/2bdf2f7d-2376-4333-9b9b-0fddb0f7fde6" />
+
+
 # Генератор лабиринтов
 
 Ruby-гем для создания лабиринтов с помощью различных алгоритмов. Поддерживает визуализацию в консоли и сохранение в PNG.
