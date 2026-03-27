@@ -96,4 +96,14 @@ RSpec.describe TheLabyrinths::Grid do
       expect(visited).to include([0, 0], [0, 3], [2, 0], [2, 3])
     end
   end
+
+  describe "#to_png" do
+  it "создаёт файл" do
+    maze = TheLabyrinths::Grid.new(3, 3)
+    filename = "test_maze.png"
+    maze.to_png(filename, cell_size: 10)
+    expect(File.exist?(filename)).to be true
+    File.delete(filename) if File.exist?(filename)
+  end
+end
 end
